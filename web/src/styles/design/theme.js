@@ -1,0 +1,58 @@
+const theme = {
+  colors: {
+    white: "#ffffff",
+    violet: {
+      100: "#f0f0fc",
+      200: "#dedeff",
+      500: "#6265d9",
+      600: "#5e43d8",
+      700: "#432eb5",
+    },
+    gray: {
+      50: "#fafafa",
+      100: "#f8f8f8",
+      200: "#f1f1f1",
+      400: "#b9b8bc",
+      500: "#7a797d",
+      600: "#2b2b2b",
+      700: "#27262e",
+      800: "#1b1b1b",
+      900: "#131313",
+    },
+    red: { 100: "#fff1f0", 200: "#ffccc7", 300: "#ff4d4f" },
+    green: { 100: "#f6ffed", 200: "#b7eb8f", 300: "#52c41a" },
+    yellow: { 100: "#fffbe6", 200: "#ffe58f", 300: "#faad14" },
+  },
+  fontSize: {
+    xs: "1.2rem",
+    sm: "1.4rem",
+    base: "1.6rem",
+    lg: "1.8rem",
+    xl: "2rem",
+    "2xl": "2.4rem",
+    "3xl": "3.2rem",
+    "4xl": "3.6rem",
+    "5xl": "4rem",
+    "6xl": "7.2rem",
+  },
+  fontFamily: { "dm-sans": "DM Sans" },
+  borderRadius: {
+    none: "0",
+    full: "9999px",
+  },
+  lineHeight: {
+    xs: "110%",
+    sm: "120%",
+    base: "140%",
+  },
+  spacing: {
+    xs: "0.4rem",
+    sm: "0.8rem",
+    md: "1.2rem",
+    base: "1.6rem",
+    lg: "2.4rem",
+    xl: "3.2rem",
+    "2xl": "6.4rem",
+  },
+};
+module.exports = theme;
