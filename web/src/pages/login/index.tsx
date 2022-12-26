@@ -5,11 +5,8 @@ import * as yup from "yup";
 
 import Button from "../../components/Button";
 import Input from "../../components/Input";
-
-interface LoginFormData {
-  email: string;
-  password: string;
-}
+import { useContext } from "react";
+import { AuthContext, LoginFormData } from "../../contexts/AuthContext";
 
 const schema = yup
   .object({
@@ -25,17 +22,15 @@ const schema = yup
   .required();
 
 export default function Login() {
+  const { signIn } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
-    watch,
-    getFieldState,
     formState: { errors, isSubmitting },
   } = useForm<LoginFormData>({ resolver: yupResolver(schema) });
 
   async function onSubmit(data: LoginFormData) {
-    console.log(data);
-    await verificar();
+    await signIn(data);
     return null;
   }
 
