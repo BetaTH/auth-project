@@ -1,6 +1,6 @@
 const typographies = {
   textStylesRegular: {
-    sx: {
+    xs: {
       fontSize: "1.2rem",
       fontWeight: "400",
       lineHeight: "auto",

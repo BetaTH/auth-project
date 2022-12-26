@@ -7,6 +7,7 @@ import {
   useState,
 } from "react";
 import { Eye, EyeSlash } from "phosphor-react";
+import { ChangeHandler } from "react-hook-form";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   type?: HTMLInputTypeAttribute | undefined;
@@ -14,11 +15,24 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   leftIcon?: JSX.Element;
   rightIcon?: JSX.Element;
+  error?: string | undefined;
+  isFocused?: boolean;
+  onBlurInput: ChangeHandler;
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
   (
-    { label, leftIcon, rightIcon, type = "text", full = true, ...props },
+    {
+      label,
+      leftIcon,
+      rightIcon,
+      isFocused = false,
+      error,
+      type = "text",
+      full = true,
+      onBlurInput,
+      ...props
+    },
     parentRef
   ) => {
     const localRef = useRef<HTMLInputElement>();
@@ -35,26 +49,32 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     const iconClass = "h-[2.4rem] w-[2.4rem] my-auto mx-md text-gray-50";
 
     return (
-      <div
-        className={`flex flex-col w-fit gap-xs ${full ? "w-full" : "w-fit"}`}
-      >
+      <div className={`flex flex-col gap-xs ${full ? "w-full" : "w-fit"}`}>
         <label className="text-gray-50 text-style-semibold-base ">
           {label}
         </label>
         <div
-          className={`flex w-full max-h-48 bg-gray-600 rounded-[0.8rem] border-[0.2rem] duration-100 ${
-            focused ? "border-violet-200" : "border-violet-700"
+          className={`flex w-full max-h-[4.8rem] bg-gray-600 rounded-[0.8rem] border-[0.2rem] duration-100 ${
+            error
+              ? " border-red-300"
+              : focused
+              ? "border-violet-200"
+              : "border-violet-700"
           }`}
         >
           {leftIcon &&
             cloneElement(leftIcon as any, {
               className: iconClass,
             })}
-
           <input
             type={isPasswordVisible ? "text" : type}
-            onFocus={() => setFocused(true)}
-            onBlur={() => setFocused(false)}
+            onFocus={() => {
+              setFocused(true);
+            }}
+            onBlur={(e) => {
+              setFocused(false);
+              onBlurInput(e);
+            }}
             ref={(inputRef) => {
               typeof parentRef === "function"
                 ? parentRef(inputRef)
@@ -84,6 +104,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             })
           )}
         </div>
+        <span className="h-[1.5rem] text-style-regular-xs text-red-300">
+          {error}
+        </span>
       </div>
     );
   }
