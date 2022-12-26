@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind utilities;
 @tailwind components;
+
+html {
+  scroll-behavior: smooth;
+  font-size: calc(100vw / 1440 * 10);
+
+  @media screen and (max-width: 639px) {
+    font-size: calc(100vw / 375 * 10);
+  }
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  font-family: "DM Sans", sans-serif;
+
+  &::-webkit-scrollbar {
+    width: 0.8rem !important;
+  }
+}
