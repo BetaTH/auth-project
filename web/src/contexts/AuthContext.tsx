@@ -45,8 +45,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const isAuthenticated = false;
 
   useEffect(() => {
-    const { nextwebauth } = parseCookies();
+    const { "nextwebauth.token": nextwebauth } = parseCookies();
     if (nextwebauth) {
+      api.get<User>("/user/me").then(({ data }) => {
+        setUser(data);
+        console.log(data);
+      });
     }
   }, []);
 
@@ -69,6 +73,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
       setCookie(undefined, "nextwebauth.token", access_token, {
         maxAge: 60 * 60 * 1,
       });
+
+      api.defaults.headers["Authorization"] = `Bearer ${access_token}`;
 
       Router.push("/");
     } catch (error) {
