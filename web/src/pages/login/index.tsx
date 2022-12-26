@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { EnvelopeSimple, Key } from "phosphor-react";
 import Input from "../../components/Input";
 
 export default function Login() {
@@ -17,13 +17,13 @@ export default function Login() {
           label="Email"
           type="text"
           placeholder="Insira seu email"
-          className="w-full"
+          leftIcon={<EnvelopeSimple />}
         />
         <Input
           label="Senha"
           type="password"
           placeholder="Insira seu senha"
-          className="w-full"
+          leftIcon={<Key />}
         />
       </div>
     </div>
