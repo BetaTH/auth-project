@@ -55,5 +55,8 @@ const theme = {
     xl: "3.2rem",
     "2xl": "6.4rem",
   },
+  boxShadow: {
+    md: "0rem 0rem 1.5rem 0.5rem rgba(222,222,255,0.05)",
+  },
 };
 module.exports = theme;

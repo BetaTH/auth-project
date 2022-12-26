@@ -29,9 +29,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       setIsPasswordVisible((isPasswordVisible) => !isPasswordVisible);
     }
 
-    const notExistLeftIconClass = !leftIcon && "rounded-l-[0.8rem] pl-base";
+    const notExistLeftIconClass = !leftIcon && "rounded-l-[0.8rem] pl-md";
     const notExistRightIconClass =
-      !(type === "password") && !rightIcon && "rounded-r-[0.8rem] pr-base";
+      !(type === "password") && !rightIcon && "rounded-r-[0.8rem] pr-md";
     const iconClass = "h-[2.4rem] w-[2.4rem] my-auto mx-md text-gray-50";
 
     return (
@@ -43,7 +43,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         </label>
         <div
           className={`flex w-full max-h-48 bg-gray-600 rounded-[0.8rem] border-[0.2rem] duration-100 ${
-            focused ? "border-gray-400" : "border-gray-800"
+            focused ? "border-violet-200" : "border-violet-700"
           }`}
         >
           {leftIcon &&
