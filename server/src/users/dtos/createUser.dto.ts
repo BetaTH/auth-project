@@ -24,8 +24,9 @@ export class CreateUserResquest extends User {
 }
 
 export class CreateUserResponse extends User {
-  id: number;
+  id: string;
   name: string;
   email: string;
   password: undefined;
+  avatarUrl: string;
 }

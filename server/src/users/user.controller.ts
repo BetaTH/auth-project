@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Post, Request } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
+import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 import { IsPublic } from 'src/auth/decorators/is-public.decorator';
 import { CreateUserResquest, CreateUserResponse } from './dtos/createUser.dto';
-import { JwtRequest } from './types/JwtRequest';
+import { User } from './user.entity';
 import { UserService } from './user.service';
 
 @Controller('user')
@@ -17,7 +18,7 @@ export class UserController {
   }
 
   @Get('/me')
-  getMe(@Request() req: JwtRequest) {
-    return this.userService.findById(req.user.id);
+  getMe(@CurrentUser() user: User) {
+    return this.userService.findById(user.id);
   }
 }
