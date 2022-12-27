@@ -1,4 +1,4 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserResquest, CreateUserResponse } from './dtos/createUser.dto';
 import * as bcrypt from 'bcrypt';
@@ -18,7 +18,8 @@ export class UserService {
 
     const userAlreadyExist = await this.findByEmail(data.email);
 
-    if (userAlreadyExist) throw new HttpException('Email already exist', 409);
+    if (userAlreadyExist)
+      throw new HttpException('Email already exist', HttpStatus.CONFLICT);
 
     const createdUser = await this.prisma.user.create({ data });
 

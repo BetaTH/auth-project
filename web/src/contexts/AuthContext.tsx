@@ -1,7 +1,7 @@
 import { createContext, useState } from "react";
 import { api } from "../lib/axios/api";
 import { decodeJwt } from "../utils/decodeJWT";
-import { setCookie } from "nookies";
+import { setCookie, destroyCookie } from "nookies";
 import Router from "next/router";
 
 export interface LoginFormData {
@@ -29,6 +29,7 @@ export interface JwtUser {
 
 interface AuthContextData {
   signIn: (data: LoginFormData) => Promise<void>;
+  signOff: () => void;
   user: User | null;
   setUser: (user: User) => void;
 }
@@ -46,7 +47,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     try {
       const {
         data: { access_token },
-      } = await api.post<LoginResponse>("/login", {
+      } = await api.post<LoginResponse>("/auth/login", {
         email,
         password,
       });
@@ -69,8 +70,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
+  async function signOff() {
+    setUser(null);
+    destroyCookie(undefined, "nextwebauth.token");
+    Router.push("/login");
+  }
+
   return (
-    <AuthContext.Provider value={{ signIn, user, setUser }}>
+    <AuthContext.Provider value={{ signIn, user, setUser, signOff }}>
       {children}
     </AuthContext.Provider>
   );

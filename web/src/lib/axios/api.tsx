@@ -8,7 +8,7 @@ function getBaseUrl() {
 const { "nextwebauth.token": nextwebauth } = parseCookies();
 
 export const api = axios.create({
-  baseURL: "http://localhost:3003",
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
 });
 
 if (nextwebauth) {

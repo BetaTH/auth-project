@@ -1,6 +1,7 @@
 import { GetServerSideProps } from "next";
 import { parseCookies } from "nookies";
-import { useContext } from "react";
+import { useContext, useState } from "react";
+import Button from "../components/Button";
 import { AuthContext, User } from "../contexts/AuthContext";
 import { api } from "../lib/axios/api";
 
@@ -9,8 +10,16 @@ interface HomeProps {
 }
 
 export default function Home({ userData }: HomeProps) {
-  const { user, setUser } = useContext(AuthContext);
+  const { user, setUser, signOff } = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState(false);
   setUser(userData);
+
+  function onHandleSignOff() {
+    setIsLoading(true);
+    signOff();
+    setIsLoading(false);
+  }
+
   return (
     <div className="flex flex-col gap-5 w-full min-h-screen items-center justify-center">
       <h1 className="text-gray-100 text-style-semibold-4xl">
@@ -24,6 +33,13 @@ export default function Home({ userData }: HomeProps) {
           Seu email: {user?.email}
         </h2>
       </div>
+      <Button
+        isLoading={isLoading}
+        disabled={isLoading}
+        title="Sair"
+        full={false}
+        onClick={() => onHandleSignOff()}
+      />
     </div>
   );
 }

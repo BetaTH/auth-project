@@ -5,7 +5,7 @@ import { ButtonHTMLAttributes, forwardRef } from "react";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   full?: boolean;
-  title?: string;
+  title: string;
   isLoading?: boolean;
   leftIcon?: JSX.Element;
   rightIcon?: JSX.Element;
