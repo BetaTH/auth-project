@@ -16,7 +16,6 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   rightIcon?: JSX.Element;
   error?: string | undefined;
   isFocused?: boolean;
-  onBlurInput: ChangeHandler;
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
@@ -29,13 +28,11 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       error,
       type = "text",
       full = true,
-      onBlurInput,
       ...props
     },
     parentRef
   ) => {
     const localRef = useRef<HTMLInputElement>();
-    const [focused, setFocused] = useState<boolean>(false);
     const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 
     function onHandleChangePasswordVisibilite() {
@@ -55,10 +52,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         <div
           className={`flex w-full max-h-[4.8rem] bg-gray-600 rounded-[0.8rem] border-[0.2rem] duration-100 ${
             error
-              ? " border-red-300"
-              : focused
-              ? "border-violet-200"
-              : "border-violet-700"
+              ? "border-red-300"
+              : "border-violet-700 focus-within:border-violet-200"
           }`}
         >
           {leftIcon &&
@@ -67,13 +62,6 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             })}
           <input
             type={isPasswordVisible ? "text" : type}
-            onFocus={() => {
-              setFocused(true);
-            }}
-            onBlur={(e) => {
-              setFocused(false);
-              onBlurInput(e);
-            }}
             ref={(inputRef) => {
               typeof parentRef === "function"
                 ? parentRef(inputRef)

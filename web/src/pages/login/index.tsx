@@ -43,9 +43,6 @@ export default function Login() {
     }
   }
 
-  const { onBlur: onBlurEmail, ...registerEmail } = register("email");
-  const { onBlur: onBlurPassword, ...registerPassword } = register("password");
-
   return (
     <div className="flex w-full min-h-screen">
       <div className="flex flex-col items-center justify-center px-[13.05rem] py-[11.3rem] bg-gray-700 w-[72rem] h-fit m-auto rounded-[1.2rem] gap-xl shadow-md">
@@ -69,8 +66,7 @@ export default function Login() {
             placeholder="Insira seu email"
             leftIcon={<EnvelopeSimple />}
             error={errors.email?.message}
-            onBlurInput={onBlurEmail}
-            {...registerEmail}
+            {...register("email")}
           />
           <Input
             isFocused={false}
@@ -79,8 +75,7 @@ export default function Login() {
             placeholder="Insira seu senha"
             leftIcon={<Key />}
             error={errors.password?.message}
-            onBlurInput={onBlurPassword}
-            {...registerPassword}
+            {...register("password")}
           />
           <Button
             type="submit"
