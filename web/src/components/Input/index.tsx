@@ -10,7 +10,6 @@ import { Eye, EyeSlash } from "phosphor-react";
 import { ChangeHandler } from "react-hook-form";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  type?: HTMLInputTypeAttribute | undefined;
   full?: boolean;
   label?: string;
   leftIcon?: JSX.Element;

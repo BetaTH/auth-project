@@ -1,7 +1,7 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 import { api } from "../lib/axios/api";
 import { decodeJwt } from "../utils/decodeJWT";
-import { parseCookies, setCookie } from "nookies";
+import { setCookie } from "nookies";
 import Router from "next/router";
 
 export interface LoginFormData {
@@ -28,9 +28,9 @@ export interface JwtUser {
 }
 
 interface AuthContextData {
-  isAuthenticated: boolean;
-  signIn: (data: LoginFormData) => void;
+  signIn: (data: LoginFormData) => Promise<void>;
   user: User | null;
+  setUser: (user: User) => void;
 }
 
 interface AuthProviderProps {
@@ -42,18 +42,6 @@ export const AuthContext = createContext({} as AuthContextData);
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null);
 
-  const isAuthenticated = false;
-
-  useEffect(() => {
-    const { "nextwebauth.token": nextwebauth } = parseCookies();
-    if (nextwebauth) {
-      api.get<User>("/user/me").then(({ data }) => {
-        setUser(data);
-        console.log(data);
-      });
-    }
-  }, []);
-
   async function signIn({ email, password }: LoginFormData) {
     try {
       const {
@@ -62,7 +50,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
         email,
         password,
       });
-
       const jwtUser = decodeJwt<JwtUser>(access_token);
       setUser({
         id: jwtUser.sub,
@@ -77,13 +64,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
       api.defaults.headers["Authorization"] = `Bearer ${access_token}`;
 
       Router.push("/");
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      throw error;
     }
   }
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, signIn, user }}>
+    <AuthContext.Provider value={{ signIn, user, setUser }}>
       {children}
     </AuthContext.Provider>
   );

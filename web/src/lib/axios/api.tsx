@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import { parseCookies } from "nookies";
 
 function getBaseUrl() {
-  return process.env.BASE_API_URL;
+  return process.env.NEXT_PUBLIC_API_URL;
 }
 
 const { "nextwebauth.token": nextwebauth } = parseCookies();

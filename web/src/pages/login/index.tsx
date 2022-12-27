@@ -26,16 +26,21 @@ export default function Login() {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors, isSubmitting },
   } = useForm<LoginFormData>({ resolver: yupResolver(schema) });
 
   async function onSubmit(data: LoginFormData) {
-    await signIn(data);
-    return null;
-  }
-
-  async function verificar() {
-    return new Promise((resolve, reject) => setTimeout(resolve, 2000));
+    try {
+      await signIn(data);
+    } catch (error: any) {
+      if (error.response?.data?.statusCode === 401) {
+        setError("email", { message: "Email ou senha incorretos" });
+        setError("password", { message: "Email ou senha incorretos" });
+      } else {
+        alert("Erro desconhecido");
+      }
+    }
   }
 
   const { onBlur: onBlurEmail, ...registerEmail } = register("email");
