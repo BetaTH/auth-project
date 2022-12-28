@@ -1,6 +1,6 @@
 import { createContext, useState } from "react";
 import { api } from "../lib/axios/api";
-import { decodeJwt } from "../utils/decodeJWT";
+import { decodeJwt } from "../utils/functions/decodeJWT";
 import { setCookie, destroyCookie } from "nookies";
 import Router from "next/router";
 
@@ -75,7 +75,6 @@ export function AuthProvider({ children, userData }: AuthProviderProps) {
 
   async function signOff() {
     destroyCookie(undefined, "nextwebauth.token");
-    setUser(null);
     Router.push("/login");
   }
 

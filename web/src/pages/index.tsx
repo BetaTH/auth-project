@@ -1,9 +1,9 @@
 import { GetServerSideProps } from "next";
-import { parseCookies } from "nookies";
 import { useContext, useState } from "react";
 import Button from "../components/Button";
-import { AuthContext, User } from "../contexts/AuthContext";
-import { api } from "../lib/axios/api";
+import { AuthContext } from "../contexts/AuthContext";
+import { serverSideAuthValidation } from "../utils/functions/serverSideAuthVallidation";
+import Router from "next/router";
 
 export default function Home() {
   const { user, signOff } = useContext(AuthContext);
@@ -16,56 +16,35 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col gap-5 w-full min-h-screen items-center justify-center">
-      <h1 className="text-gray-100 text-style-semibold-4xl">
-        Você Está Logado!!
-      </h1>
-      <div className="flex flex-col gap-4">
-        <h2 className="text-gray-100 text-style-regular-xl">
-          Seu nome: {user?.name}
-        </h2>
-        <h2 className="text-gray-100 text-style-regular-xl">
-          Seu email: {user?.email}
-        </h2>
+    <div className="flex flex-col w-full min-h-screen items-center justify-center">
+      <div className="w-[30rme] h-fit flex flex-col p-base items-center justify-center gap-6">
+        <h1 className="text-gray-100 text-style-semibold-4xl">
+          Você Está Logado!!
+        </h1>
+        <div className="flex flex-col gap-4">
+          <h2 className="text-gray-100 text-style-regular-xl">
+            Seu nome: {user?.name}
+          </h2>
+          <h2 className="text-gray-100 text-style-regular-xl">
+            Seu email: {user?.email}
+          </h2>
+        </div>
+        <Button
+          isLoading={isLoading}
+          disabled={isLoading}
+          title="Sair"
+          onClick={() => onHandleSignOff()}
+        />
       </div>
-      <Button
-        isLoading={isLoading}
-        disabled={isLoading}
-        title="Sair"
-        full={false}
-        onClick={() => onHandleSignOff()}
-      />
     </div>
   );
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { ["nextwebauth.token"]: access_token } = parseCookies(ctx);
-  if (!access_token) {
-    return {
-      redirect: {
-        destination: "/login",
-        permanent: false,
-      },
-    };
-  }
-
-  const response = await api.get<User>("/user/me", {
-    headers: {
-      Authorization: `Bearer ${access_token}`,
-    },
-  });
-
-  if (response.status !== 200) {
-    return {
-      redirect: {
-        destination: "/login",
-        permanent: false,
-      },
-    };
-  }
+  const { redirect, userData } = await serverSideAuthValidation(ctx);
+  if (redirect) return redirect;
 
   return {
-    props: { userData: response.data },
+    props: { userData: userData },
   };
 };

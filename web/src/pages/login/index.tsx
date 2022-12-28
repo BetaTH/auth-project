@@ -2,11 +2,12 @@ import { EnvelopeSimple, Key } from "phosphor-react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
-
 import Button from "../../components/Button";
 import Input from "../../components/Input";
 import { useContext } from "react";
 import { AuthContext, LoginFormData } from "../../contexts/AuthContext";
+import { GetServerSideProps } from "next";
+import { serverSideAuthValidation } from "../../utils/functions/serverSideAuthVallidation";
 
 const schema = yup
   .object({
@@ -89,3 +90,12 @@ export default function Login() {
     </div>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { redirect, userData } = await serverSideAuthValidation(ctx);
+  if (redirect) return redirect;
+
+  return {
+    props: { userData: userData },
+  };
+};
