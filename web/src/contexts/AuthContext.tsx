@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { api } from "../lib/axios/api";
 import { decodeJwt } from "../utils/functions/decodeJWT";
 import { setCookie, destroyCookie } from "nookies";
@@ -44,7 +44,9 @@ export const AuthContext = createContext({} as AuthContextData);
 export function AuthProvider({ children, userData }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(userData);
 
-  console.log(user);
+  useEffect(() => {
+    setUser(userData);
+  }, [userData]);
 
   async function signIn({ email, password }: LoginFormData) {
     try {
