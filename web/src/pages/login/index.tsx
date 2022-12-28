@@ -38,6 +38,7 @@ export default function Login() {
         setError("email", { message: "Email ou senha incorretos" });
         setError("password", { message: "Email ou senha incorretos" });
       } else {
+        console.log(error);
         alert("Erro desconhecido");
       }
     }

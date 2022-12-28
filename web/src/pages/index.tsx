@@ -5,14 +5,9 @@ import Button from "../components/Button";
 import { AuthContext, User } from "../contexts/AuthContext";
 import { api } from "../lib/axios/api";
 
-interface HomeProps {
-  userData: User;
-}
-
-export default function Home({ userData }: HomeProps) {
-  const { user, setUser, signOff } = useContext(AuthContext);
+export default function Home() {
+  const { user, signOff } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
-  setUser(userData);
 
   function onHandleSignOff() {
     setIsLoading(true);

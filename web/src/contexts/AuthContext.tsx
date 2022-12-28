@@ -35,13 +35,16 @@ interface AuthContextData {
 }
 
 interface AuthProviderProps {
+  userData: User | null;
   children: React.ReactNode;
 }
 
 export const AuthContext = createContext({} as AuthContextData);
 
-export function AuthProvider({ children }: AuthProviderProps) {
-  const [user, setUser] = useState<User | null>(null);
+export function AuthProvider({ children, userData }: AuthProviderProps) {
+  const [user, setUser] = useState<User | null>(userData);
+
+  console.log(user);
 
   async function signIn({ email, password }: LoginFormData) {
     try {
@@ -71,8 +74,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }
 
   async function signOff() {
-    setUser(null);
     destroyCookie(undefined, "nextwebauth.token");
+    setUser(null);
     Router.push("/login");
   }
 
