@@ -21,6 +21,7 @@ export const APP_ROUTES: I_APP_ROUTES = {
   ],
   public: [
     { name: "login", path: "/login", redirectDestination: "/" },
+    { name: "register", path: "/register", redirectDestination: "/" },
     { name: "public-route", path: "/public-route", redirectDestination: null },
   ],
 };

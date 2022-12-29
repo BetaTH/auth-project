@@ -8,6 +8,11 @@ export interface LoginFormData {
   email: string;
   password: string;
 }
+export interface RegisterFormData {
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
 
 export interface LoginResponse {
   access_token: string;
@@ -29,7 +34,8 @@ export interface JwtUser {
 
 interface AuthContextData {
   signIn: (data: LoginFormData) => Promise<void>;
-  signOff: () => void;
+  signUp: (data: RegisterFormData) => Promise<void>;
+  signOff: () => Promise<void>;
   user: User | null;
   setUser: (user: User) => void;
 }
@@ -75,13 +81,15 @@ export function AuthProvider({ children, userData }: AuthProviderProps) {
     }
   }
 
+  async function signUp({ email, password }: RegisterFormData) {}
+
   async function signOff() {
     destroyCookie(undefined, "nextwebauth.token");
     Router.push("/login");
   }
 
   return (
-    <AuthContext.Provider value={{ signIn, user, setUser, signOff }}>
+    <AuthContext.Provider value={{ signIn, signUp, signOff, setUser, user }}>
       {children}
     </AuthContext.Provider>
   );
