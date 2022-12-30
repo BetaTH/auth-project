@@ -1,4 +1,4 @@
-import { EnvelopeSimple, Key } from "phosphor-react";
+import { EnvelopeSimple, Key, User } from "phosphor-react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -8,9 +8,11 @@ import { useContext } from "react";
 import { AuthContext, RegisterFormData } from "../../contexts/AuthContext";
 import { GetServerSideProps } from "next";
 import { serverSideAuthValidation } from "../../utils/functions/serverSideAuthVallidation";
+import Link from "next/link";
 
 const schema = yup
   .object({
+    name: yup.string().required("Nome é Requerido"),
     email: yup
       .string()
       .email("Insira um email válido")
@@ -29,6 +31,7 @@ const schema = yup
 export default function Register() {
   const { signUp } = useContext(AuthContext);
   const {
+    reset,
     register,
     handleSubmit,
     setError,
@@ -36,10 +39,12 @@ export default function Register() {
   } = useForm<RegisterFormData>({ resolver: yupResolver(schema) });
 
   async function onSubmit(data: RegisterFormData) {
-    console.log(data);
     try {
       await signUp(data);
+      alert("Conta criada com sucesso");
+      reset();
     } catch (error: any) {
+      console.log(error.response);
       if (error.response?.data?.statusCode === 409) {
         setError("email", { message: "Email já cadastrado" });
       } else {
@@ -68,6 +73,15 @@ export default function Register() {
           <div className="w-full flex flex-col gap-xs">
             <Input
               isFocused={false}
+              label="Nome"
+              type="text"
+              placeholder="Insira seu nome"
+              leftIcon={<User />}
+              error={errors.name?.message}
+              {...register("name")}
+            />
+            <Input
+              isFocused={false}
               label="Email"
               type="text"
               placeholder="Insira seu email"
@@ -94,12 +108,20 @@ export default function Register() {
               {...register("confirmPassword")}
             />
           </div>
-          <Button
-            type="submit"
-            title="Login"
-            isLoading={isSubmitting}
-            disabled={isSubmitting}
-          />
+          <div className="flex flex-col w-full gap-base items-center justify-center">
+            <Button
+              type="submit"
+              title="Login"
+              isLoading={isSubmitting}
+              disabled={isSubmitting}
+            />
+            <span className="text-style-regular-base text-gray-100 flex gap-xs">
+              Já possui uma conta?
+              <Link className="text-violet-500 hover:underline" href="/login">
+                Login
+              </Link>
+            </span>
+          </div>
         </form>
       </div>
     </div>

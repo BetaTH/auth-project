@@ -8,6 +8,7 @@ import { useContext } from "react";
 import { AuthContext, LoginFormData } from "../../contexts/AuthContext";
 import { GetServerSideProps } from "next";
 import { serverSideAuthValidation } from "../../utils/functions/serverSideAuthVallidation";
+import Link from "next/link";
 
 const schema = yup
   .object({
@@ -81,12 +82,23 @@ export default function Login() {
               {...register("password")}
             />
           </div>
-          <Button
-            type="submit"
-            title="Login"
-            isLoading={isSubmitting}
-            disabled={isSubmitting}
-          />
+          <div className="flex flex-col w-full gap-base items-center justify-center">
+            <Button
+              type="submit"
+              title="Login"
+              isLoading={isSubmitting}
+              disabled={isSubmitting}
+            />
+            <span className="text-style-regular-base text-gray-100 flex gap-xs">
+              Ainda não possui uma conta?
+              <Link
+                className="text-violet-500 hover:underline"
+                href="/register"
+              >
+                Registre-se
+              </Link>
+            </span>
+          </div>
         </form>
       </div>
     </div>

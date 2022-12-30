@@ -25,10 +25,11 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         justify-center 
         h-[4.8rem] 
         py-14 px-md 
-        bg-violet-700 
+        bg-violet-600
+        hover:bg-violet-700 
         rounded-[0.8rem] 
         border-[0.2rem] 
-        duration-100 
+        duration-150 
         text-style-regular-sm 
         text-gray-100
         ${full ? "w-full" : "w-fit"}`}

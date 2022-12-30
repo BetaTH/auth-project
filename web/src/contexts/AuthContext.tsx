@@ -9,9 +9,15 @@ export interface LoginFormData {
   password: string;
 }
 export interface RegisterFormData {
+  name: string;
   email: string;
   password: string;
   confirmPassword: string;
+}
+export interface RegisterResponse {
+  id: string;
+  name: string;
+  email: string;
 }
 
 export interface LoginResponse {
@@ -81,7 +87,18 @@ export function AuthProvider({ children, userData }: AuthProviderProps) {
     }
   }
 
-  async function signUp({ email, password }: RegisterFormData) {}
+  async function signUp({ name, email, password }: RegisterFormData) {
+    try {
+      const { data } = await api.post<RegisterResponse>("/user", {
+        name,
+        email,
+        password,
+      });
+      console.log(data);
+    } catch (error: any) {
+      throw error;
+    }
+  }
 
   async function signOff() {
     destroyCookie(undefined, "nextwebauth.token");
