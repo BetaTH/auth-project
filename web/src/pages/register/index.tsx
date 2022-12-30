@@ -4,11 +4,12 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
-import { useContext } from "react";
+import { HTMLInputTypeAttribute, useContext } from "react";
 import { AuthContext, RegisterFormData } from "../../contexts/AuthContext";
 import { GetServerSideProps } from "next";
 import { serverSideAuthValidation } from "../../utils/functions/serverSideAuthVallidation";
 import Link from "next/link";
+import { useState } from "react";
 
 const schema = yup
   .object({
@@ -30,6 +31,9 @@ const schema = yup
 
 export default function Register() {
   const { signUp } = useContext(AuthContext);
+  const [inferType, setInferType] = useState<
+    HTMLInputTypeAttribute | undefined
+  >("text");
   const {
     reset,
     register,
@@ -96,9 +100,11 @@ export default function Register() {
               placeholder="Insira seu senha"
               leftIcon={<Key />}
               error={errors.password?.message}
+              setInferType={setInferType}
               {...register("password")}
             />
             <Input
+              inferType={inferType}
               isFocused={false}
               label="Confirme Sua Senha"
               type="password"

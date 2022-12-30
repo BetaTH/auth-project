@@ -3,6 +3,7 @@ import {
   forwardRef,
   HTMLInputTypeAttribute,
   InputHTMLAttributes,
+  useEffect,
   useRef,
   useState,
 } from "react";
@@ -16,11 +17,15 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   rightIcon?: JSX.Element;
   error?: string | undefined;
   isFocused?: boolean;
+  inferType?: HTMLInputTypeAttribute | undefined;
+  setInferType?: (inferType: HTMLInputTypeAttribute | undefined) => void;
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
   (
     {
+      inferType,
+      setInferType,
       label,
       leftIcon,
       rightIcon,
@@ -34,6 +39,10 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
   ) => {
     const localRef = useRef<HTMLInputElement>();
     const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
+
+    useEffect(() => {
+      !inferType && setInferType && setInferType(localRef.current?.type);
+    }, [isPasswordVisible]);
 
     function onHandleChangePasswordVisibilite() {
       setIsPasswordVisible((isPasswordVisible) => !isPasswordVisible);
@@ -61,7 +70,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               className: iconClass,
             })}
           <input
-            type={isPasswordVisible ? "text" : type}
+            type={inferType ? inferType : isPasswordVisible ? "text" : type}
             ref={(inputRef) => {
               typeof parentRef === "function"
                 ? parentRef(inputRef)
@@ -72,24 +81,25 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             {...props}
           />
 
-          {type === "password" ? (
-            !isPasswordVisible ? (
-              <Eye
-                className={`hover:opacity-80 duration-100 ${iconClass}`}
-                onClick={onHandleChangePasswordVisibilite}
-              />
+          {!inferType &&
+            (type === "password" ? (
+              !isPasswordVisible ? (
+                <Eye
+                  className={`hover:opacity-80 duration-100 ${iconClass}`}
+                  onClick={onHandleChangePasswordVisibilite}
+                />
+              ) : (
+                <EyeSlash
+                  className={`hover:opacity-80 duration-100 ${iconClass}`}
+                  onClick={onHandleChangePasswordVisibilite}
+                />
+              )
             ) : (
-              <EyeSlash
-                className={`hover:opacity-80 duration-100 ${iconClass}`}
-                onClick={onHandleChangePasswordVisibilite}
-              />
-            )
-          ) : (
-            rightIcon &&
-            cloneElement(rightIcon as any, {
-              className: iconClass,
-            })
-          )}
+              rightIcon &&
+              cloneElement(rightIcon as any, {
+                className: iconClass,
+              })
+            ))}
         </div>
         <span className="h-[1.5rem] text-style-regular-xs text-red-300">
           {error}
