@@ -111,7 +111,7 @@ export default function Register() {
           <div className="flex flex-col w-full gap-base items-center justify-center">
             <Button
               type="submit"
-              title="Login"
+              title="Criar Conta"
               isLoading={isSubmitting}
               disabled={isSubmitting}
             />
