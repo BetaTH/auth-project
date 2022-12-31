@@ -41,8 +41,8 @@ export default function Home() {
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { redirect, userData } = await serverSideAuthValidation(ctx);
-  if (redirect) return redirect;
+  const { nextRedirectObject, userData } = await serverSideAuthValidation(ctx);
+  if (nextRedirectObject) return nextRedirectObject;
 
   return {
     props: { userData: userData },

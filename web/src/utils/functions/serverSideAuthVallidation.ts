@@ -5,10 +5,10 @@ import { User } from "../../contexts/AuthContext";
 import { checkIsPublicRoute } from "./check-is-public-route";
 import { getUser } from "./getUser";
 
-export type RedirectProp = { redirect: Redirect } | null;
+// export type NextRedirectObject = { redirect: Redirect } | null;
 
 type ServerSideAuthValidationResult = {
-  redirect: RedirectProp;
+  nextRedirectObject: { redirect: Redirect } | null;
   userData: User | null;
 };
 
@@ -31,7 +31,7 @@ export const serverSideAuthValidation: ServerSideAuthValidation = async (
   if (!access_token) {
     if (!isPublic) {
       return {
-        redirect: {
+        nextRedirectObject: {
           redirect: {
             destination: redirectDestination as string,
             permanent: false,
@@ -41,7 +41,7 @@ export const serverSideAuthValidation: ServerSideAuthValidation = async (
       };
     } else {
       return {
-        redirect: null,
+        nextRedirectObject: null,
         userData: null,
       };
     }
@@ -50,12 +50,12 @@ export const serverSideAuthValidation: ServerSideAuthValidation = async (
     if (user) {
       if (!isPublic) {
         return {
-          redirect: null,
+          nextRedirectObject: null,
           userData: user,
         };
       } else if (redirectDestination) {
         return {
-          redirect: {
+          nextRedirectObject: {
             redirect: {
               destination: redirectDestination as string,
               permanent: false,
@@ -65,14 +65,14 @@ export const serverSideAuthValidation: ServerSideAuthValidation = async (
         };
       } else {
         return {
-          redirect: null,
+          nextRedirectObject: null,
           userData: user,
         };
       }
     } else {
       if (!isPublic) {
         return {
-          redirect: {
+          nextRedirectObject: {
             redirect: {
               destination: redirectDestination as string,
               permanent: false,
@@ -82,7 +82,7 @@ export const serverSideAuthValidation: ServerSideAuthValidation = async (
         };
       } else {
         return {
-          redirect: null,
+          nextRedirectObject: null,
           userData: user,
         };
       }
