@@ -16,6 +16,11 @@ This project was developed using the following technologies:
 $ cd auth-project/server
 ```
 
+#### Copy .env.exemplo to .env
+```bash
+$ cp .env.exemplo .env
+```
+
 #### Install dependencies
 ```bash
 $ npm install
@@ -24,11 +29,6 @@ $ npm install
 #### Start Sqlite with prisma
 ```bash
 $ npx prisma migrate dev
-```
-
-#### Copy .env.exemplo to .env
-```bash
-$ cp .env.exemplo .env
 ```
 
 #### Start server
@@ -50,14 +50,14 @@ $ cd ..
 $ cd web
 ```
 
-#### Install dependencies
-```bash
-$ npm install
-```
-
 #### Copy .env.exemplo to .env
 ```bash
 $ cp .env.exemplo .env
+```
+
+#### Install dependencies
+```bash
+$ npm install
 ```
 
 #### Run web app
