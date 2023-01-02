@@ -3,6 +3,7 @@
 /node_modules
 .env
 /prisma/sqlite.db
+/prisma/sqlite.db-journal
 
 # Logs
 logs
