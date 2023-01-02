@@ -1,7 +1,7 @@
 # auth-project
 Implementation of a auth system with NestJS and NextJS
 
-#To run as dev 
+
 
 # Server
 ### Move to server directory
