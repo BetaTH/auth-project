@@ -3,7 +3,6 @@ import { useContext, useState } from "react";
 import Button from "../components/Button";
 import { AuthContext } from "../contexts/AuthContext";
 import { serverSideAuthValidation } from "../utils/functions/serverSideAuthVallidation";
-import Router from "next/router";
 
 export default function Home() {
   const { user, signOff } = useContext(AuthContext);

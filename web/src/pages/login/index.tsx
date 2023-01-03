@@ -9,6 +9,7 @@ import { AuthContext, LoginFormData } from "../../contexts/AuthContext";
 import { GetServerSideProps } from "next";
 import { serverSideAuthValidation } from "../../utils/functions/serverSideAuthVallidation";
 import Link from "next/link";
+import { Modal } from "../../components/Modal";
 
 const schema = yup
   .object({

@@ -4,11 +4,12 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext, RegisterFormData } from "../../contexts/AuthContext";
 import { GetServerSideProps } from "next";
 import { serverSideAuthValidation } from "../../utils/functions/serverSideAuthVallidation";
 import Link from "next/link";
+import { Modal } from "../../components/Modal";
 
 const schema = yup
   .object({
@@ -37,11 +38,12 @@ export default function Register() {
     setError,
     formState: { errors, isSubmitting },
   } = useForm<RegisterFormData>({ resolver: yupResolver(schema) });
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   async function onSubmit(data: RegisterFormData) {
     try {
       await signUp(data);
-      alert("Conta criada com sucesso");
+      setIsModalVisible(true);
       reset();
     } catch (error: any) {
       console.log(error.response);
@@ -124,6 +126,12 @@ export default function Register() {
           </div>
         </form>
       </div>
+      {isModalVisible && (
+        <Modal
+          title="Conta criada com sucesso!!"
+          onOkPress={() => setIsModalVisible(false)}
+        />
+      )}
     </div>
   );
 }
