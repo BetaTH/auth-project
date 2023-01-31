@@ -6,12 +6,14 @@ import { User } from '@prisma/client';
 import { UserPayload } from './types/UserPayload';
 import { JwtService } from '@nestjs/jwt';
 import { UserToken } from './types/UserToken';
+import { RefreshTokenService } from '../refreshToken/refreshToken.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
+    private readonly refreshTokenService: RefreshTokenService,
   ) {}
 
   login(user: User): UserToken {
@@ -21,9 +23,11 @@ export class AuthService {
       name: user.name,
     };
 
-    const jwtToken = this.jwtService.sign(payload);
+    const access_token = this.jwtService.sign(payload);
+    const refresh_token = this.refreshTokenService.signInRefreshToken(payload);
     return {
-      access_token: jwtToken,
+      access_token,
+      refresh_token,
     };
   }
 
