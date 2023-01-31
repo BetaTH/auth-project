@@ -5,7 +5,7 @@ import { UserPayload } from '../types/UserPayload';
 import { UserFromJwt } from '../types/UserFromJwt';
 
 @Injectable()
-export class RefreshTokenStrategy extends PassportStrategy(
+export class JwtRefreshStrategy extends PassportStrategy(
   Strategy,
   'jwt-refresh',
 ) {

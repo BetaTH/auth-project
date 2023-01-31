@@ -8,7 +8,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { UnauthorizedError } from '../../utils/errors';
 
 @Injectable()
-export class JwtRefreshshGuard extends AuthGuard('jwt-refresh') {
+export class JwtRefreshGuard extends AuthGuard('jwt-refresh') {
   constructor(private reflector: Reflector) {
     super();
   }

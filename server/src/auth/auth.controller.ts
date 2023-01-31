@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { IsPublic } from './decorators/is-public.decorator';
-import { JwtRefreshshGuard } from './guards/jwt-refresh.guard';
+import { JwtRefreshGuard } from './guards/jwt-refresh.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { AuthRequest } from './types/AuthRequest';
 
@@ -27,7 +27,7 @@ export class AuthController {
   @IsPublic()
   @Get('refresh')
   @HttpCode(HttpStatus.OK)
-  @UseGuards(JwtRefreshshGuard)
+  @UseGuards(JwtRefreshGuard)
   refresh(@Request() req: AuthRequest) {
     return this.authService.login(req.user);
   }

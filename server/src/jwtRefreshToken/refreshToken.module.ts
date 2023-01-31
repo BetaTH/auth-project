@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
-import { RefreshTokenStrategy } from 'src/auth/strategies/refreshToken.strategy';
 import { UserModule } from 'src/users/user.module';
 import { RefreshTokenService } from './refreshToken.service';
 
@@ -13,7 +12,7 @@ import { RefreshTokenService } from './refreshToken.service';
     }),
   ],
   controllers: [],
-  providers: [RefreshTokenStrategy, RefreshTokenService],
+  providers: [RefreshTokenService],
   exports: [RefreshTokenService],
 })
 export class RefreshTokenModule {}

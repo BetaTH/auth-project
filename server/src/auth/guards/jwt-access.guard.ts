@@ -9,7 +9,7 @@ import { IS_PUBLIC_KEY } from '../decorators/is-public.decorator';
 import { UnauthorizedError } from '../../utils/errors';
 
 @Injectable()
-export class JwtAuthGuard extends AuthGuard('jwt') {
+export class JwtAccessGuard extends AuthGuard('jwt-access') {
   constructor(private reflector: Reflector) {
     super();
   }

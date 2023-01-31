@@ -3,10 +3,10 @@ import { JwtService } from '@nestjs/jwt';
 import { UserPayload } from 'src/auth/types/UserPayload';
 
 @Injectable()
-export class RefreshTokenService {
+export class AccessTokenService {
   constructor(private readonly jwtService: JwtService) {}
 
-  signInRefreshToken(payload: UserPayload) {
+  signAccessToken(payload: UserPayload) {
     const jwtToken = this.jwtService.sign(payload);
     return jwtToken;
   }

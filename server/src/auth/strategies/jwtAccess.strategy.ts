@@ -5,7 +5,10 @@ import { UserFromJwt } from '../types/UserFromJwt';
 import { UserPayload } from '../types/UserPayload';
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy) {
+export class JwtAccessStrategy extends PassportStrategy(
+  Strategy,
+  'jwt-access',
+) {
   constructor() {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
