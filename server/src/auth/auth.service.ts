@@ -5,8 +5,8 @@ import { UnauthorizedError } from 'src/utils/errors';
 import { User } from '@prisma/client';
 import { UserPayload } from './types/UserPayload';
 import { UserToken } from './types/UserToken';
-import { RefreshTokenService } from '../jwtRefreshToken/refreshToken.service';
-import { AccessTokenService } from 'src/jwtAccessToken/accessToken.service';
+import { RefreshTokenService } from './jwtRefreshToken/refreshToken.service';
+import { AccessTokenService } from './jwtAccessToken/accessToken.service';
 
 @Injectable()
 export class AuthService {
