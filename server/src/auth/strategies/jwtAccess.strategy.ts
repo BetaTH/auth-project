@@ -4,6 +4,9 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { UserFromJwt } from '../types/UserFromJwt';
 import { UserPayload } from '../types/UserPayload';
 
+import * as dotenv from 'dotenv';
+dotenv.config();
+
 @Injectable()
 export class JwtAccessStrategy extends PassportStrategy(
   Strategy,
