@@ -22,7 +22,7 @@ type ServerSideAuthValidation<
 export const serverSideAuthValidation: ServerSideAuthValidation = async (
   ctx
 ) => {
-  const { ["nextwebauth.token"]: access_token } = parseCookies(ctx);
+  const { ["next_access_token"]: access_token } = parseCookies(ctx);
 
   const { isPublic, redirectDestination } = checkIsPublicRoute(
     ctx.resolvedUrl.split("?")[0]

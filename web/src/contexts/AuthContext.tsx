@@ -10,6 +10,7 @@ import {
   RegisterFormData,
   RegisterResponse,
   User,
+  AuthProviderProps,
 } from "../types/auth";
 
 interface AuthContextData {
@@ -18,11 +19,6 @@ interface AuthContextData {
   signOff: () => Promise<void>;
   user: User | null;
   setUser: (user: User) => void;
-}
-
-interface AuthProviderProps {
-  userData: User | null;
-  children: React.ReactNode;
 }
 
 export const AuthContext = createContext({} as AuthContextData);
@@ -37,7 +33,7 @@ export function AuthProvider({ children, userData }: AuthProviderProps) {
   async function signIn({ email, password }: LoginFormData) {
     try {
       const {
-        data: { access_token },
+        data: { access_token, refresh_token },
       } = await api.post<LoginResponse>("/auth/login", {
         email,
         password,
@@ -49,8 +45,12 @@ export function AuthProvider({ children, userData }: AuthProviderProps) {
         email: jwtUser.email,
       });
 
-      setCookie(undefined, "nextwebauth.token", access_token, {
-        maxAge: 60 * 60 * 1,
+      setCookie(undefined, "next_access_token", access_token, {
+        expires: new Date(decodeJwt<JwtUser>(access_token).exp),
+      });
+
+      setCookie(undefined, "next_refresh_token", refresh_token, {
+        expires: new Date(decodeJwt<JwtUser>(refresh_token).exp),
       });
 
       api.defaults.headers["Authorization"] = `Bearer ${access_token}`;
@@ -75,7 +75,7 @@ export function AuthProvider({ children, userData }: AuthProviderProps) {
   }
 
   async function signOff() {
-    destroyCookie(undefined, "nextwebauth.token");
+    destroyCookie(undefined, "next_access_token");
     Router.push("/login");
   }
 

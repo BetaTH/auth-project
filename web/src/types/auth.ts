@@ -16,6 +16,7 @@ export interface RegisterResponse {
 
 export interface LoginResponse {
   access_token: string;
+  refresh_token: string;
 }
 
 export interface User {
@@ -30,4 +31,9 @@ export interface JwtUser {
   iat: number;
   name: string;
   sub: number;
+}
+
+export interface AuthProviderProps {
+  userData: User | null;
+  children: React.ReactNode;
 }
