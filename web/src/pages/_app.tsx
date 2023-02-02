@@ -1,7 +1,8 @@
 import "../styles/global.css";
 import type { AppProps } from "next/app";
-import { AuthProvider, User } from "../contexts/AuthContext";
+import { AuthProvider } from "../contexts/AuthContext";
 import NextNProgress from "nextjs-progressbar";
+import { User } from "../types/auth";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (

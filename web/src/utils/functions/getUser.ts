@@ -1,5 +1,5 @@
-import { User } from "../../contexts/AuthContext";
 import { api } from "../../lib/axios/api";
+import { User } from "../../types/auth";
 
 type GetUser = (accees_tocken: string) => Promise<User | null>;
 

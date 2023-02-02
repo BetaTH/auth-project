@@ -1,8 +1,8 @@
 import { GetServerSidePropsContext, PreviewData, Redirect } from "next";
 import { parseCookies } from "nookies";
 import { ParsedUrlQuery } from "querystring";
-import { User } from "../../contexts/AuthContext";
-import { checkIsPublicRoute } from "./check-is-public-route";
+import { User } from "../../types/auth";
+import { checkIsPublicRoute } from "./checkIsPublicRoute";
 import { getUser } from "./getUser";
 
 // export type NextRedirectObject = { redirect: Redirect } | null;

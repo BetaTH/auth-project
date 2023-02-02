@@ -3,40 +3,14 @@ import { api } from "../lib/axios/api";
 import { decodeJwt } from "../utils/functions/decodeJWT";
 import { setCookie, destroyCookie } from "nookies";
 import Router from "next/router";
-
-export interface LoginFormData {
-  email: string;
-  password: string;
-}
-export interface RegisterFormData {
-  name: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
-export interface RegisterResponse {
-  id: string;
-  name: string;
-  email: string;
-}
-
-export interface LoginResponse {
-  access_token: string;
-}
-
-export interface User {
-  id: number;
-  email: string;
-  name: string;
-}
-
-export interface JwtUser {
-  email: string;
-  exp: number;
-  iat: number;
-  name: string;
-  sub: number;
-}
+import {
+  JwtUser,
+  LoginFormData,
+  LoginResponse,
+  RegisterFormData,
+  RegisterResponse,
+  User,
+} from "../types/auth";
 
 interface AuthContextData {
   signIn: (data: LoginFormData) => Promise<void>;
