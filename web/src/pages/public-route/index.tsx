@@ -1,7 +1,6 @@
 import { GetServerSideProps } from "next";
 import Router from "next/router";
 import Button from "../../components/Button";
-import { serverSideAuthValidation } from "../../utils/functions/serverSideAuthVallidation";
 import { serverSideAuth } from "../../utils/functions/serverSiderAuth";
 
 export default function PublicRoute() {
@@ -20,15 +19,6 @@ export default function PublicRoute() {
     </div>
   );
 }
-
-// export const getServerSideProps: GetServerSideProps = async (ctx) => {
-//   const { nextRedirectObject, userData } = await serverSideAuthValidation(ctx);
-//   if (nextRedirectObject) return nextRedirectObject;
-
-//   return {
-//     props: { userData: userData },
-//   };
-// };
 
 export const getServerSideProps: GetServerSideProps = serverSideAuth(
   async (ctx, userData) => {

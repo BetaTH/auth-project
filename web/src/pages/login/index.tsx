@@ -7,7 +7,6 @@ import Input from "../../components/Input";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { GetServerSideProps } from "next";
-import { serverSideAuthValidation } from "../../utils/functions/serverSideAuthVallidation";
 import Link from "next/link";
 import { Modal } from "../../components/Modal";
 import { LoginFormData } from "../../types/auth";
@@ -107,15 +106,6 @@ export default function Login() {
     </div>
   );
 }
-
-// export const getServerSideProps: GetServerSideProps = async (ctx) => {
-//   const { nextRedirectObject, userData } = await serverSideAuthValidation(ctx);
-//   if (nextRedirectObject) return nextRedirectObject;
-
-//   return {
-//     props: { userData: userData },
-//   };
-// };
 
 export const getServerSideProps: GetServerSideProps = serverSideAuth(
   async (ctx, userData) => {
