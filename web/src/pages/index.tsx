@@ -3,6 +3,7 @@ import { useContext, useState } from "react";
 import Button from "../components/Button";
 import { AuthContext } from "../contexts/AuthContext";
 import { serverSideAuthValidation } from "../utils/functions/serverSideAuthVallidation";
+import { serverSideAuth } from "../utils/functions/serverSiderAuth";
 
 export default function Home() {
   const { user, signOff } = useContext(AuthContext);
@@ -39,11 +40,25 @@ export default function Home() {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { nextRedirectObject, userData } = await serverSideAuthValidation(ctx);
-  if (nextRedirectObject) return nextRedirectObject;
+// export const getServerSideProps: GetServerSideProps = async (ctx) => {
+//   const { nextRedirectObject, userData } = await serverSideAuthValidation(ctx);
+//   if (nextRedirectObject) return nextRedirectObject;
 
-  return {
-    props: { userData: userData },
-  };
-};
+//   return {
+//     props: { userData: userData },
+//   };
+// };
+
+export const getServerSideProps: GetServerSideProps = serverSideAuth(
+  async (ctx, userData) => {
+    if (userData) {
+      return { props: { userData } };
+    }
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/login",
+      },
+    };
+  }
+);

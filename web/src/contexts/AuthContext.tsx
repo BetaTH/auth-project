@@ -11,15 +11,8 @@ import {
   RegisterResponse,
   User,
   AuthProviderProps,
+  AuthContextData,
 } from "../types/auth";
-
-interface AuthContextData {
-  signIn: (data: LoginFormData) => Promise<void>;
-  signUp: (data: RegisterFormData) => Promise<void>;
-  signOff: () => Promise<void>;
-  user: User | null;
-  setUser: (user: User) => void;
-}
 
 export const AuthContext = createContext({} as AuthContextData);
 
@@ -46,12 +39,21 @@ export function AuthProvider({ children, userData }: AuthProviderProps) {
       });
 
       setCookie(undefined, "next_access_token", access_token, {
-        expires: new Date(decodeJwt<JwtUser>(access_token).exp),
+        maxAge:
+          decodeJwt<JwtUser>(access_token).exp - Math.floor(Date.now() / 1000),
       });
 
       setCookie(undefined, "next_refresh_token", refresh_token, {
-        expires: new Date(decodeJwt<JwtUser>(refresh_token).exp),
+        maxAge:
+          decodeJwt<JwtUser>(refresh_token).exp - Math.floor(Date.now() / 1000),
       });
+
+      console.log(
+        decodeJwt<JwtUser>(access_token).exp - Math.floor(Date.now() / 1000)
+      );
+      console.log(
+        decodeJwt<JwtUser>(refresh_token).exp - Math.floor(Date.now() / 1000)
+      );
 
       api.defaults.headers["Authorization"] = `Bearer ${access_token}`;
 
@@ -76,6 +78,7 @@ export function AuthProvider({ children, userData }: AuthProviderProps) {
 
   async function signOff() {
     destroyCookie(undefined, "next_access_token");
+    destroyCookie(undefined, "next_refresh_token");
     Router.push("/login");
   }
 

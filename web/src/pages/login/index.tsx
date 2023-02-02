@@ -11,6 +11,7 @@ import { serverSideAuthValidation } from "../../utils/functions/serverSideAuthVa
 import Link from "next/link";
 import { Modal } from "../../components/Modal";
 import { LoginFormData } from "../../types/auth";
+import { serverSideAuth } from "../../utils/functions/serverSiderAuth";
 
 const schema = yup
   .object({
@@ -107,11 +108,25 @@ export default function Login() {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { nextRedirectObject, userData } = await serverSideAuthValidation(ctx);
-  if (nextRedirectObject) return nextRedirectObject;
+// export const getServerSideProps: GetServerSideProps = async (ctx) => {
+//   const { nextRedirectObject, userData } = await serverSideAuthValidation(ctx);
+//   if (nextRedirectObject) return nextRedirectObject;
 
-  return {
-    props: { userData: userData },
-  };
-};
+//   return {
+//     props: { userData: userData },
+//   };
+// };
+
+export const getServerSideProps: GetServerSideProps = serverSideAuth(
+  async (ctx, userData) => {
+    if (!userData) {
+      return { props: {} };
+    }
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/",
+      },
+    };
+  }
+);

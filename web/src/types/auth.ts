@@ -37,3 +37,11 @@ export interface AuthProviderProps {
   userData: User | null;
   children: React.ReactNode;
 }
+
+export interface AuthContextData {
+  signIn: (data: LoginFormData) => Promise<void>;
+  signUp: (data: RegisterFormData) => Promise<void>;
+  signOff: () => Promise<void>;
+  user: User | null;
+  setUser: (user: User) => void;
+}
