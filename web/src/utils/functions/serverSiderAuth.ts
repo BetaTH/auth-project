@@ -6,7 +6,6 @@ import {
 import { parseCookies } from "nookies";
 import { User } from "../../types/auth";
 import { getUser } from "./getUser";
-import { isTokenExpired } from "./isTokenExpiry";
 import axios from "axios";
 import { refreshTokens } from "./refreshTokens";
 
@@ -20,15 +19,15 @@ export function serverSideAuth(func: Callback): GetServerSideProps {
     const { ["next_access_token"]: access_token } = parseCookies(ctx);
     const { ["next_refresh_token"]: refresh_token } = parseCookies(ctx);
 
-    console.log(refresh_token);
-
     if (!access_token && !refresh_token) {
       return func(ctx);
     }
 
-    const isAccessTokenExpired = isTokenExpired(access_token);
+    const userData = await getUser(access_token);
 
-    if (isAccessTokenExpired) {
+    if (userData) {
+      return func(ctx, userData);
+    } else {
       try {
         const { userData } = await refreshTokens(ctx);
         return func(ctx, userData);
@@ -39,16 +38,8 @@ export function serverSideAuth(func: Callback): GetServerSideProps {
         ) {
           return func(ctx);
         }
-        throw error;
+        return func(ctx);
       }
-    }
-
-    const userData = await getUser(access_token);
-
-    if (userData) {
-      return func(ctx, userData);
-    } else {
-      return func(ctx);
     }
   };
 }

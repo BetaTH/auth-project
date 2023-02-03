@@ -6,6 +6,8 @@ import { decodeJwt } from "./decodeJWT";
 
 interface RefreshTokensReponse {
   userData: User;
+  access_token: string;
+  refresh_token: string;
 }
 
 export async function refreshTokens(
@@ -37,6 +39,8 @@ export async function refreshTokens(
 
     return {
       userData,
+      access_token: data.access_token,
+      refresh_token: data.refresh_token,
     };
   } catch (e) {
     throw e;

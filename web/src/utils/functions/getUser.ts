@@ -12,6 +12,7 @@ export const getUser: GetUser = async (access_token) => {
     });
     return response.data;
   } catch (error) {
+    console.log(error);
     return null;
   }
 };

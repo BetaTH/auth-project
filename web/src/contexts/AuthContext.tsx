@@ -48,13 +48,6 @@ export function AuthProvider({ children, userData }: AuthProviderProps) {
           decodeJwt<JwtUser>(refresh_token).exp - Math.floor(Date.now() / 1000),
       });
 
-      console.log(
-        decodeJwt<JwtUser>(access_token).exp - Math.floor(Date.now() / 1000)
-      );
-      console.log(
-        decodeJwt<JwtUser>(refresh_token).exp - Math.floor(Date.now() / 1000)
-      );
-
       api.defaults.headers["Authorization"] = `Bearer ${access_token}`;
 
       Router.push("/");
@@ -70,7 +63,6 @@ export function AuthProvider({ children, userData }: AuthProviderProps) {
         email,
         password,
       });
-      console.log(data);
     } catch (error: any) {
       throw error;
     }
