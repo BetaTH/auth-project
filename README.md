@@ -18,7 +18,7 @@ $ cd auth-project/server
 
 #### Copy .env.exemplo to .env
 ```bash
-$ cp .env.exemplo .env
+$ cp .env.exemple .env
 ```
 
 #### Install dependencies
